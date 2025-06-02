@@ -13,10 +13,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+     "types": ["next-auth"],
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types"],
   "exclude": ["node_modules"]
 }

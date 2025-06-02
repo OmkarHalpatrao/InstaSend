@@ -3,6 +3,7 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Underline from "@tiptap/extension-underline"
+import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -35,6 +36,9 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
     extensions: [
       StarterKit,
       Underline,
+      TextAlign.configure({
+      types: ["heading", "paragraph"],
+    }),
       Link.configure({
         openOnClick: false,
       }),

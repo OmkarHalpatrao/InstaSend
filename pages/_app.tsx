@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import "@/styles/globals.css"
 
+
 const inter = Inter({ subsets: ["latin"] })
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {

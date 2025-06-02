@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Underline from "@tiptap/extension-underline"
+import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -45,6 +46,9 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
       Link.configure({
         openOnClick: false,
       }),
+      TextAlign.configure({
+      types: ["heading", "paragraph"],
+    }),
     ],
     content: template?.body || "<p>Enter your template content here...</p>",
   })

@@ -5,9 +5,9 @@ import type { GetServerSideProps } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Head from "next/head"
-
+import type { ClientSafeProvider } from "next-auth/react"
 interface SignInProps {
-  providers: any
+  providers: Record<string, ClientSafeProvider>
 }
 
 export default function SignIn({ providers }: SignInProps) {
@@ -23,13 +23,14 @@ export default function SignIn({ providers }: SignInProps) {
             <CardDescription>Sign in to access your email templates and send personalized emails</CardDescription>
           </CardHeader>
           <CardContent>
-            {Object.values(providers).map((provider: any) => (
+           {Object.values(providers).map((provider) => (
               <div key={provider.name}>
                 <Button onClick={() => signIn(provider.id, { callbackUrl: "/" })} className="w-full" size="lg">
                   Sign in with {provider.name}
                 </Button>
               </div>
             ))}
+
           </CardContent>
         </Card>
       </div>
