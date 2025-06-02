@@ -103,7 +103,7 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
       setIsSaving(true)
 
       const method = isEditing ? "PUT" : "POST"
-      const url = isEditing && template ? `/api/templates/${template.id}` : "/api/templates"
+      const url = isEditing && template ? `/api/templates/${template._id}` : "/api/templates"
 
       const response = await fetch(url, {
         method,

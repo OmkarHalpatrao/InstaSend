@@ -3,11 +3,12 @@ import { getServerSession } from "next-auth/next"
 import { connectDB } from "@/utils/db"
 import Template from "@/models/Template"
 import User from "@/models/User"
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
 
-  const session = await getServerSession(req, res, {})
+  const session = await getServerSession(req, res, authOptions)
 
   if (!session?.user?.email) {
     return res.status(401).json({ error: "Unauthorized" })
