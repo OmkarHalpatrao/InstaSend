@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { Placeholder } from "./email-referral-tool"
+import type { Placeholder } from "./homePage"
 import type { PlaceholderDefinition } from "./placeholder-manager"
 
 interface PlaceholderFormProps {

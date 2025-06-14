@@ -104,7 +104,7 @@ export default function PlaceholderManager({ placeholders, onChange }: Placehold
       </div>
 
       <p className="text-sm text-gray-500">
-        Add placeholders that users can fill in when using this template. Use them in your template like {"{key}"}.
+        Add placeholders that you can fill in when using this template. Use them in your template like {"{key}"}.
       </p>
     </div>
   )

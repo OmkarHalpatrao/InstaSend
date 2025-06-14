@@ -4,10 +4,10 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Loader2, Search, X } from "lucide-react"
-import type { Template } from "./email-referral-tool"
+import type { Template } from "./homePage"
 
 interface TemplateListSelectorProps {
-  onSelect: (template: Template) => void
+  onSelect: (template: Template | null) => void
   onClose: () => void
 }
 

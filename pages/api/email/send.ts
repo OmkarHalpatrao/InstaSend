@@ -24,6 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!session?.accessToken) {
       return res.status(401).json({ error: "Unauthorized" })
     }
+    // if (!session?.refreshToken) {
+    //   console.error("❌ No refresh token found in session");
+    // } else {
+    //   // console.log("✅ Refresh Token:", session.refreshToken.slice(0, 10) + '...'); // Don't log the full token in production
+    //   console.log("✅ Refresh Token:", session.refreshToken)
+    // }
 
     const form = formidable({ multiples: false })
 
@@ -104,7 +110,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({ success: true })
   } catch (error) {
-    console.error("Error sending email:", error)
+    console.error("Error sending email:", JSON.stringify(error, null, 2))
     return res.status(500).json({ error: "Failed to send email" })
   }
 }

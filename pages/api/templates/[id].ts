@@ -15,8 +15,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!template) {
         return res.status(404).json({ error: "Template not found" })
       }
-
-      return res.status(200).json(template)
+      const plain = template.toObject();
+      plain.id = plain._id.toString();
+      delete plain._id;
+      return res.status(200).json(plain)
     } catch (err) {
       console.error("Error fetching template:", err)
       return res.status(500).json({ error: "Failed to fetch template" })
@@ -41,8 +43,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!updatedTemplate) {
         return res.status(404).json({ error: "Template not found" })
       }
-
-      return res.status(200).json(updatedTemplate)
+      const plain = updatedTemplate.toObject();
+      plain.id = plain._id.toString();
+      delete plain._id;
+      return res.status(200).json(plain)
     } catch (err) {
       console.error("Error updating template:", err)
       return res.status(500).json({ error: "Failed to update template" })

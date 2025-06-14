@@ -14,7 +14,7 @@ export default function SignIn({ providers }: SignInProps) {
   return (
     <>
       <Head>
-        <title>Sign In - Email Referral Tool</title>
+        <title>Sign In - Email  Tool</title>
       </Head>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
         <Card className="w-full max-w-md">

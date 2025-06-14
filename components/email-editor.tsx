@@ -3,8 +3,9 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Underline from "@tiptap/extension-underline"
-import TextAlign from "@tiptap/extension-text-align";
+import TextAlign from "@tiptap/extension-text-align"
 import Link from "@tiptap/extension-link"
+import { useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -18,6 +19,7 @@ import {
   AlignRight,
   List,
   ListOrdered,
+  Trash2,
 } from "lucide-react"
 import { useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -29,7 +31,12 @@ interface EmailEditorProps {
   onSubjectChange: (subject: string) => void
 }
 
-export default function EmailEditor({ value, onChange, subject, onSubjectChange }: EmailEditorProps) {
+export default function EmailEditor({
+  value,
+  onChange,
+  subject,
+  onSubjectChange,
+}: EmailEditorProps) {
   const [linkUrl, setLinkUrl] = useState("")
 
   const editor = useEditor({
@@ -37,8 +44,8 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
       StarterKit,
       Underline,
       TextAlign.configure({
-      types: ["heading", "paragraph"],
-    }),
+        types: ["heading", "paragraph"],
+      }),
       Link.configure({
         openOnClick: false,
       }),
@@ -48,11 +55,24 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
       onChange(editor.getHTML())
     },
   })
+  
 
-  const setLink = () => {
-    if (!linkUrl) return
+  useEffect(() => {
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value)
+    }
+  }, [value, editor])
 
-    editor?.chain().focus().extendMarkRange("link").setLink({ href: linkUrl }).run()
+
+  const toggleLink = () => {
+    if (!editor) return
+
+    if (editor.isActive("link")) {
+      editor.chain().focus().unsetLink().run()
+    } else if (linkUrl) {
+      editor.chain().focus().extendMarkRange("link").setLink({ href: linkUrl }).run()
+    }
+
     setLinkUrl("")
   }
 
@@ -62,6 +82,7 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
 
   return (
     <div className="space-y-4">
+      {/* Subject Field */}
       <div className="space-y-2">
         <Label htmlFor="email-subject">Subject</Label>
         <Input
@@ -72,9 +93,11 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
         />
       </div>
 
+      {/* Email Body */}
       <div className="space-y-2">
         <Label>Email Body</Label>
         <div className="border rounded-md overflow-hidden">
+          {/* Toolbar */}
           <div className="flex flex-wrap gap-1 p-2 bg-gray-50 border-b">
             <Button
               type="button"
@@ -104,6 +127,7 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
               <UnderlineIcon className="h-4 w-4" />
             </Button>
 
+            {/* Link Popover */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -125,16 +149,18 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
                       onChange={(e) => setLinkUrl(e.target.value)}
                       placeholder="https://example.com"
                     />
-                    <Button type="button" size="sm" onClick={setLink}>
-                      Add
+                    <Button type="button" size="sm" onClick={toggleLink}>
+                      {editor.isActive("link") ? "Remove" : "Add"}
                     </Button>
                   </div>
                 </div>
               </PopoverContent>
             </Popover>
 
+            {/* Divider */}
             <div className="w-px h-6 bg-gray-300 mx-1" />
 
+            {/* Text Alignment */}
             <Button
               type="button"
               size="icon"
@@ -163,8 +189,10 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
               <AlignRight className="h-4 w-4" />
             </Button>
 
+            {/* Divider */}
             <div className="w-px h-6 bg-gray-300 mx-1" />
 
+            {/* Lists */}
             <Button
               type="button"
               size="icon"
@@ -183,9 +211,24 @@ export default function EmailEditor({ value, onChange, subject, onSubjectChange 
             >
               <ListOrdered className="h-4 w-4" />
             </Button>
+
+            {/* Clear Button */}
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={() => editor.commands.setContent("")}
+              title="Clear"
+            >
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
           </div>
 
-          <EditorContent editor={editor} className="p-3 min-h-[200px]" />
+          {/* Editor Body */}
+          <EditorContent
+            editor={editor}
+            className="p-3 min-h-[200px] max-h-[400px] overflow-auto focus:outline-none"
+          />
         </div>
       </div>
     </div>

@@ -20,15 +20,16 @@ import {
   List,
   ListOrdered,
   Loader2,
+  Trash2,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import PlaceholderManager, { type PlaceholderDefinition } from "./placeholder-manager"
-import type { Template } from "./email-referral-tool"
+import type { Template } from "./homePage"
 
 interface TemplateManagerProps {
   template?: Template | null
-  onSave: (template: Template) => void
+  onSave: (template: Template | null) => void
   isEditing?: boolean
 }
 
@@ -38,6 +39,7 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
   const [placeholders, setPlaceholders] = useState<PlaceholderDefinition[]>(template?.placeholders || [])
   const [linkUrl, setLinkUrl] = useState("")
   const [isSaving, setIsSaving] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const editor = useEditor({
     extensions: [
@@ -103,7 +105,7 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
       setIsSaving(true)
 
       const method = isEditing ? "PUT" : "POST"
-      const url = isEditing && template ? `/api/templates/${template._id}` : "/api/templates"
+      const url = isEditing && template ? `/api/templates/${template.id}` : "/api/templates"
 
       const response = await fetch(url, {
         method,
@@ -132,6 +134,22 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
       console.error("Error saving template:", error)
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  const handleDeleteTemplate = async () => {
+    if (!template) return
+    if (!window.confirm("Are you sure you want to delete this template?")) return
+    setIsDeleting(true)
+    try {
+      const response = await fetch(`/api/templates/${template.id}`, { method: "DELETE" })
+      if (!response.ok) throw new Error("Failed to delete template")
+      toast.success("Template deleted successfully")
+      onSave(null)
+    } catch {
+      toast.error("Failed to delete template")
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -322,6 +340,21 @@ export default function TemplateManager({ template, onSave, isEditing = false }:
             "Save Template"
           )}
         </Button>
+        {isEditing && template && (
+          <Button
+            type="button"
+            onClick={handleDeleteTemplate}
+            disabled={isDeleting}
+            className="w-full mt-2 bg-black text-white hover:bg-black hover:text-white active:bg-black active:text-white flex items-center justify-center"
+          >
+            {isDeleting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Trash2 className="mr-2 h-4 w-4" />
+            )}
+            Delete Template
+          </Button>
+        )}
       </div>
     </div>
   )

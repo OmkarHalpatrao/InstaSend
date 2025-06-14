@@ -30,7 +30,7 @@ export type Placeholder = {
   type?: string
 }
 
-export default function EmailReferralTool() {
+export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string>("compose")
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
   const [templateToEdit, setTemplateToEdit] = useState<Template | null>(null)
@@ -46,11 +46,11 @@ export default function EmailReferralTool() {
   // Add a new state for recipient email
   const [recipientEmail, setRecipientEmail] = useState<string>("")
 
-  const handleTemplateSelect = (template: Template) => {
+  const handleTemplateSelect = (template: Template | null) => {
+    if (!template) return
     setSelectedTemplate(template)
     setEmailContent(template.body)
     setEmailSubject(template.subject)
-
     // Set up placeholders based on template definition
     const templatePlaceholders = template.placeholders || []
     setPlaceholders(
@@ -58,7 +58,7 @@ export default function EmailReferralTool() {
         key: p.key,
         value: "",
         type: p.type,
-      })),
+      }))
     )
   }
 
@@ -92,15 +92,25 @@ export default function EmailReferralTool() {
     setShowTemplateSelector(true)
   }
 
-  const handleSelectTemplateToEdit = (template: Template) => {
+  const handleSelectTemplateToEdit = (template: Template | null) => {
+    if (!template) return
     setTemplateToEdit(template)
     setIsEditingTemplate(true)
     setActiveTab("templates")
     setShowTemplateSelector(false)
   }
 
-  const handleTemplateSaved = (template: Template) => {
+  const handleTemplateSaved = (template: Template | null) => {
     setActiveTab("compose")
+    if (!template) {
+      setTemplateToEdit(null)
+      setIsEditingTemplate(false)
+      setSelectedTemplate(null)
+      setEmailContent("")
+      setEmailSubject("")
+      setPlaceholders([])
+      return
+    }
     // If we were editing the currently selected template, update it
     if (isEditingTemplate && selectedTemplate && selectedTemplate.id === template.id) {
       setSelectedTemplate(template)
@@ -170,18 +180,18 @@ export default function EmailReferralTool() {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="flex items-center justify-between mb-6">
           <TabsList>
-            <TabsTrigger value="compose">Compose</TabsTrigger>
+            <TabsTrigger value="compose">Compose Email</TabsTrigger>
           </TabsList>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-1">
+              <Button variant="outline" className="flex items-center gap-1 hover:bg-black hover:text-white active:bg-black active:text-white">
                 Template Options <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleCreateTemplate}>Create Template</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleEditTemplate}>Edit Template</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleCreateTemplate} className="hover:bg-black hover:text-white active:bg-black active:text-white">Create Template</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleEditTemplate} className="hover:bg-black hover:text-white active:bg-black active:text-white">Edit Template</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

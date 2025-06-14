@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Paperclip, Loader2 } from "lucide-react"
+import { Paperclip, Loader2, X } from "lucide-react"
 
 interface EmailPreviewProps {
   subject: string
@@ -24,8 +24,17 @@ export default function EmailPreview({
   isSending,
 }: EmailPreviewProps) {
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="relative space-y-6">
+      <Card className="relative">
+        {/* Cancel Icon */}
+        <button
+          onClick={onBackToEdit}
+          className="absolute top-4 right-4 text-gray-500 hover:text-black"
+          aria-label="Close preview"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
         <CardHeader className="pb-3">
           <CardTitle className="text-xl">Email Preview</CardTitle>
         </CardHeader>

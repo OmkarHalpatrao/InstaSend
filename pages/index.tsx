@@ -1,6 +1,6 @@
 "use client"
 
-import EmailReferralTool from "@/components/email-referral-tool"
+import HomePage from "@/components/homePage"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -35,14 +35,14 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Email Referral Tool</title>
-        <meta name="description" content="A personalized email referral tool" />
+        <title>Email  Tool</title>
+        <meta name="description" content="A personalized email  tool" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className="min-h-screen p-4 md:p-6 lg:p-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Email Referral Tool</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Email  Tool</h1>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -70,7 +70,7 @@ export default function Home() {
             </DropdownMenu>
           </div>
 
-          <EmailReferralTool />
+          <HomePage />
         </div>
       </main>
     </>

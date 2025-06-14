@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import type { Template } from "./email-referral-tool"
+import type { Template } from "./homePage"
 
 interface TemplateSelectorProps {
-  onSelect: (template: Template) => void
+  onSelect: (template: Template | null) => void
   selectedTemplate: Template | null
 }
 
