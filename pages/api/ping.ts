@@ -1,7 +1,7 @@
 import type { NextApiRequest,NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
 
-export default function handler(req:NextRequest,res:NextResponse){
+
+export default function handler(req:NextApiRequest,res:NextApiResponse){
     res.status(200).json({
         status:"InstaSend app is awake",
         Timestamp:new Date().toISOString(),
