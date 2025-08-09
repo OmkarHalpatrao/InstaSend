@@ -1,7 +1,7 @@
 {
     "name": "InstaSend",
     "short_name": "InstaSend",
-    "theme_color": "#00ff00",
+    "theme_color": "#9370db",
     "background_color": "#ffffff",
     "display": "standalone",
     "orientation": "any",

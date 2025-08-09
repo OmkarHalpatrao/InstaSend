@@ -13,7 +13,7 @@ export default function Document() {
 
         {/* PWA Manifest & Meta */}
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#00ff00" />
+        <meta name="theme-color" content="#9370db" />
         <meta name="application-name" content="InstaSend" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
